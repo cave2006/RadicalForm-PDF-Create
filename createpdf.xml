@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="radicalform" method="upgrade">
+	<name>PLG_RADICALFORM_CREATEPDF</name>
+	<author>Sergey Cave Lebedev</author>
+	<creationDate>April 2025</creationDate>
+	<copyright>Copyright (c) 2009 - 2025 CaveDesign Studio. All Rights Reserved.</copyright>
+	<license>GNU/GPL license: https://www.gnu.org/copyleft/gpl.html</license>
+	<authorEmail>cave2006@ya.ru</authorEmail>
+	<authorUrl>https://cavedesign.ru</authorUrl>
+	<version>__DEPLOY_VERSION__</version>
+	<description>PLG_RADICALFORM_CREATEPDF_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\RadicalForm\CreatePDF</namespace>
+	<scriptfile>script.php</scriptfile>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/plg_radicalform_createpdf.ini</language>
+		<language tag="en-GB">en-GB/plg_radicalform_createpdf.sys.ini</language>
+		<language tag="ru-RU">ru-RU/plg_radicalform_createpdf.ini</language>
+		<language tag="ru-RU">ru-RU/plg_radicalform_createpdf.sys.ini</language>
+	</languages>
+	<files>
+		<folder>services</folder>
+		<folder>forms</folder>
+		<folder>templates</folder>
+		<folder plugin="createpdf">src</folder>
+	</files>
+	<config>
+		<fields name="params" addfieldprefix="Joomla\Plugin\RadicalForm\CreatePDF\Field">
+			<fieldset name="basic">
+				<field name="note_scv" type="note"
+					   class="alert alert-info w-100"
+					   label="PLG_RADICALFORM_CREATEPDF_PARAM_NOTE" />
+
+			</fieldset>
+<!--			<fieldset name="upload" label="PLG_RADICALFORM_CREATEPDF_UPLOAD_FIELDSET_LABEL">-->
+<!--				<field name="target_template_upload" type="upload"-->
+<!--					   label="PLG_RADICALFORM_CREATEPDF_UPLOAD_LABEL"-->
+<!--					   filter="unset"-->
+<!--					   description="PLG_RADICALFORM_CREATEPDF_UPLOAD_DESCRIPTION"-->
+<!--				/>-->
+<!--			</fieldset>-->
+			<fieldset name="targets" label="PLG_RADICALFORM_CREATEPDF_TARGET_FIELDSET_LABEL">
+				<field name="targets" type="subform"
+					   label="PLG_RADICALFORM_CREATEPDF_TARGET_BINDING"
+					   description="PLG_RADICALFORM_CREATEPDF_TARGET_BINDING_DESC"
+					   layout="joomla.form.field.subform.repeatable-table"
+					   parentclass="stack"
+					   multiple="true"
+					   icon="list">
+					<form>
+						<field name="target_title" type="text"
+							   label="PLG_RADICALFORM_CREATEPDF_TARGET_TITLE"
+							   description="PLG_RADICALFORM_CREATEPDF_TARGET_TITLE_DESC"
+							   required="true"/>
+						<field name="target_template" type="templates"
+							   label="PLG_RADICALFORM_CREATEPDF_SELECT_TARGET_TEMPLATE"
+							   description="PLG_RADICALFORM_CREATEPDF_SELECT_TARGET_TEMPLATE_DESC"
+
+							   required="true"/>
+						<field name="count_enable" type="radio"
+							   label="PLG_RADICALFORM_CREATEPDF_COUNT_ENABLE"
+							   description="PLG_RADICALFORM_CREATEPDF_COUNT_ENABLE_DESC"
+							   class="btn-group btn-group-yesno"
+							   default="0">
+							<option value="1">JYES</option>
+							<option value="0">JNO</option>
+						</field>
+						<field name="count_start" type="text"
+							   showon="count_enable!:0"
+							   default="0001"
+							   label="PLG_RADICALFORM_CREATEPDF_COUNT_START"
+							   description="PLG_RADICALFORM_CREATEPDF_COUNT_START_DESC"/>
+						<field name="count_title" type="text"
+							   showon="count_enable!:0"
+							   label="PLG_RADICALFORM_CREATEPDF_COUNT_TITLE"
+							   description="PLG_RADICALFORM_CREATEPDF_COUNT_TITLE_DESC"
+							   hint="PLG_RADICALFORM_CREATEPDF_COUNT_TITLE_HINT" />
+						<field name="count_last" type="hidden"
+							   default="" />
+					</form>
+				</field>
+			</fieldset>
+
+		</fields>
+	</config>
+</extension>
