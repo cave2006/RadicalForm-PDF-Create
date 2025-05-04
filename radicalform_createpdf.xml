@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="package" method="upgrade">
+	<name>PKG_RADICALFORM_CREATEPDF</name>
+	<packagename>pkg_radicalform_createpdf</packagename>
+	<author>Sergey Cave Lebedev</author>
+	<creationDate>May 2025</creationDate>
+	<copyright>Copyright (c) 2009 - 2025 CaveDesign Studio. All Rights Reserved.</copyright>
+	<license>GNU/GPL license: https://www.gnu.org/copyleft/gpl.html</license>
+	<authorEmail>cave2006@ya.ru</authorEmail>
+	<authorUrl>https://cavedesign.ru</authorUrl>
+	<version>__DEPLOY_VERSION__</version>
+	<description>PKG_RADICALFORM_CREATEPDF_DESCRIPTION</description>
+	<scriptfile>script.php</scriptfile>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/pkg_radicalform_createpdf.sys.ini</language>
+		<language tag="ru-RU">ru-RU/pkg_radicalform_createpdf.sys.ini</language>
+	</languages>
+	<files>
+		<folder type="plugin" group="radicalform" id="createpdf">plg_radicalform_createpdf</folder>
+		<folder type="library" id="radicalformcreatepdf">lib_jmpdf</folder>
+	</files>
+</extension>

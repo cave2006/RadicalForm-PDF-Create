@@ -19,7 +19,6 @@
 	</languages>
 	<files>
 		<folder>services</folder>
-		<folder>forms</folder>
 		<folder>templates</folder>
 		<folder plugin="createpdf">src</folder>
 	</files>
@@ -28,16 +27,9 @@
 			<fieldset name="basic">
 				<field name="note_scv" type="note"
 					   class="alert alert-info w-100"
-					   label="PLG_RADICALFORM_CREATEPDF_PARAM_NOTE" />
+					   label="PLG_RADICALFORM_CREATEPDF_PARAM_NOTE"/>
 
 			</fieldset>
-<!--			<fieldset name="upload" label="PLG_RADICALFORM_CREATEPDF_UPLOAD_FIELDSET_LABEL">-->
-<!--				<field name="target_template_upload" type="upload"-->
-<!--					   label="PLG_RADICALFORM_CREATEPDF_UPLOAD_LABEL"-->
-<!--					   filter="unset"-->
-<!--					   description="PLG_RADICALFORM_CREATEPDF_UPLOAD_DESCRIPTION"-->
-<!--				/>-->
-<!--			</fieldset>-->
 			<fieldset name="targets" label="PLG_RADICALFORM_CREATEPDF_TARGET_FIELDSET_LABEL">
 				<field name="targets" type="subform"
 					   label="PLG_RADICALFORM_CREATEPDF_TARGET_BINDING"
@@ -73,13 +65,12 @@
 							   showon="count_enable!:0"
 							   label="PLG_RADICALFORM_CREATEPDF_COUNT_TITLE"
 							   description="PLG_RADICALFORM_CREATEPDF_COUNT_TITLE_DESC"
-							   hint="PLG_RADICALFORM_CREATEPDF_COUNT_TITLE_HINT" />
+							   hint="PLG_RADICALFORM_CREATEPDF_COUNT_TITLE_HINT"/>
 						<field name="count_last" type="hidden"
-							   default="" />
+							   default=""/>
 					</form>
 				</field>
 			</fieldset>
-
 		</fields>
 	</config>
 </extension>

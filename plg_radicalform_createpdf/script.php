@@ -1,6 +1,6 @@
 <?php
 /*
- * @package     RadicalForm PDF Create Package
+ * @package    RadicalForm PDF Create Plugin
  * @version     __DEPLOY_VERSION__
  * @author      CaveDesign Studio - cavedesign.ru
  * @copyright   Copyright (c) 2009 - 2025 CaveDesign Studio. All Rights Reserved.
@@ -65,7 +65,7 @@ return new class () implements ServiceProviderInterface {
 				 *
 				 * @since  __DEPLOY_VERSION__
 				 */
-				protected string $minimumPhp = '8.0';
+				protected string $minimumPhp = '8.2';
 
 				/**
 				 * Minimum MySQL version required to install the extension.
@@ -83,7 +83,7 @@ return new class () implements ServiceProviderInterface {
 				 *
 				 * @since  __DEPLOY_VERSION__
 				 */
-				protected string $minimumMariaDb = '10.0';
+				protected string $minimumMariaDb = '10.11';
 
 				/**
 				 * Language constant for errors.
@@ -92,7 +92,16 @@ return new class () implements ServiceProviderInterface {
 				 *
 				 * @since __DEPLOY_VERSION__
 				 */
-				protected string $constant = "PKG_RADICALFORM_CREATEPDF";
+				protected string $constant = "PLG_RADICALFORM_CREATEPDF";
+
+				/**
+				 * Extension params for check.
+				 *
+				 * @var  array
+				 *
+				 * @since  __DEPLOY_VERSION__
+				 */
+				protected array $extensionParams = [];
 
 				/**
 				 * Update methods.
@@ -127,6 +136,8 @@ return new class () implements ServiceProviderInterface {
 				 */
 				public function install(InstallerAdapter $adapter): bool
 				{
+					$this->enablePlugin($adapter);
+
 					return true;
 				}
 
@@ -141,6 +152,9 @@ return new class () implements ServiceProviderInterface {
 				 */
 				public function update(InstallerAdapter $adapter): bool
 				{
+					// Refresh media version
+					(new Version())->refreshMediaVersion();
+
 					return true;
 				}
 
@@ -194,6 +208,9 @@ return new class () implements ServiceProviderInterface {
 					$installer = $adapter->getParent();
 					if ($type !== 'uninstall')
 					{
+						// Check extension params
+						$this->checkExtensionParams($adapter);
+
 						// Run updates script
 						if ($type === 'update')
 						{
@@ -208,6 +225,26 @@ return new class () implements ServiceProviderInterface {
 					}
 
 					return true;
+				}
+
+				/**
+				 * Enable plugin after installation.
+				 *
+				 * @param   InstallerAdapter  $adapter  Parent object calling object.
+				 *
+				 * @since  __DEPLOY_VERSION__
+				 */
+				protected function enablePlugin(InstallerAdapter $adapter)
+				{
+					// Prepare plugin object
+					$plugin          = new \stdClass();
+					$plugin->type    = 'plugin';
+					$plugin->element = $adapter->getElement();
+					$plugin->folder  = (string) $adapter->getParent()->manifest->attributes()['group'];
+					$plugin->enabled = 1;
+
+					// Update record
+					$this->db->updateObject('#__extensions', $plugin, ['type', 'element', 'folder']);
 				}
 
 				/**
@@ -267,6 +304,57 @@ return new class () implements ServiceProviderInterface {
 					}
 
 					return true;
+				}
+
+				/**
+				 * Method to check extension params and set if needed.
+				 *
+				 * @param   InstallerAdapter  $adapter  Parent object calling object.
+				 *
+				 * @since  __DEPLOY_VERSION__
+				 */
+				protected function checkExtensionParams(InstallerAdapter $adapter)
+				{
+					if (!empty($this->extensionParams))
+					{
+						$element = $adapter->getElement();
+						$folder  = (string) $adapter->getParent()->manifest->attributes()['group'];
+
+						// Get extension
+						$db    = $this->db;
+						$query = $db->getQuery(true)
+							->select(['extension_id', 'params'])
+							->from($db->quoteName('#__extensions'))
+							->where($db->quoteName('element') . ' = :element')
+							->bind(':element', $element);
+						if (!empty($folder))
+						{
+							$query->where($db->quoteName('folder') . ' = :folder')
+								->bind(':folder', $folder);
+						}
+						if ($extension = $db->setQuery($query)->loadObject())
+						{
+							$extension->params = new Registry($extension->params);
+
+							// Check params
+							$needUpdate = false;
+							foreach ($this->extensionParams as $path => $value)
+							{
+								if (!$extension->params->exists($path))
+								{
+									$needUpdate = true;
+									$extension->params->set($path, $value);
+								}
+							}
+
+							// Update
+							if ($needUpdate)
+							{
+								$extension->params = (string) $extension->params;
+								$db->updateObject('#__extensions', $extension, 'extension_id');
+							}
+						}
+					}
 				}
 
 			});
