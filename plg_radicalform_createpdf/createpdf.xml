@@ -2,12 +2,12 @@
 <extension type="plugin" group="radicalform" method="upgrade">
 	<name>PLG_RADICALFORM_CREATEPDF</name>
 	<author>Sergey Cave Lebedev</author>
-	<creationDate>April 2025</creationDate>
+	<creationDate>May 2025</creationDate>
 	<copyright>Copyright (c) 2009 - 2025 CaveDesign Studio. All Rights Reserved.</copyright>
 	<license>GNU/GPL license: https://www.gnu.org/copyleft/gpl.html</license>
 	<authorEmail>cave2006@ya.ru</authorEmail>
 	<authorUrl>https://cavedesign.ru</authorUrl>
-	<version>__DEPLOY_VERSION__</version>
+	<version>0.0.3</version>
 	<description>PLG_RADICALFORM_CREATEPDF_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\RadicalForm\CreatePDF</namespace>
 	<scriptfile>script.php</scriptfile>
@@ -57,12 +57,12 @@
 							<option value="0">JNO</option>
 						</field>
 						<field name="count_start" type="text"
-							   showon="count_enable!:0"
+							   showon="count_enable:1"
 							   default="0001"
 							   label="PLG_RADICALFORM_CREATEPDF_COUNT_START"
 							   description="PLG_RADICALFORM_CREATEPDF_COUNT_START_DESC"/>
 						<field name="count_title" type="text"
-							   showon="count_enable!:0"
+							   showon="count_enable:1"
 							   label="PLG_RADICALFORM_CREATEPDF_COUNT_TITLE"
 							   description="PLG_RADICALFORM_CREATEPDF_COUNT_TITLE_DESC"
 							   hint="PLG_RADICALFORM_CREATEPDF_COUNT_TITLE_HINT"/>

@@ -8,7 +8,7 @@
 	<license>GNU/GPL license: https://www.gnu.org/copyleft/gpl.html</license>
 	<authorEmail>cave2006@ya.ru</authorEmail>
 	<authorUrl>https://cavedesign.ru</authorUrl>
-	<version>__DEPLOY_VERSION__</version>
+	<version>0.0.3</version>
 	<description>PKG_RADICALFORM_CREATEPDF_DESCRIPTION</description>
 	<scriptfile>script.php</scriptfile>
 	<languages folder="language">

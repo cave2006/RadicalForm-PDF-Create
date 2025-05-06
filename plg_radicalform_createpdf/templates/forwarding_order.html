@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Поручение экспедитору №П-1554</title>
+    <style>
+        body {
+            font-family: DejaVu Sans, sans-serif; 
+            font-size: 10pt;
+            line-height: 1.4;
+        }
+        h1 {
+            text-align: center;
+            font-size: 14pt;
+            margin-bottom: 10px;
+        }
+        .header-right {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+        .section-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        .section-table td {
+            vertical-align: top;
+            padding: 2px 5px 2px 0; /* Adjust padding as needed */
+        }
+        .label {
+            font-weight: bold;
+            white-space: nowrap; /* Prevent labels from wrapping */
+            width: 1%; /* Shrink label column */
+        }
+        .data {
+            /* Let data column take remaining space */
+        }
+        .full-width-label {
+             font-weight: bold;
+             display: block; /* Make label take its own line */
+             margin-top: 5px;
+        }
+         .full-width-data {
+             display: block; /* Make data take its own line */
+             margin-bottom: 5px;
+        }
+        .field-block {
+            margin-bottom: 5px;
+        }
+        .signature-table {
+            width: 100%;
+            margin-top: 30px; /* Space before signatures */
+            border-collapse: collapse;
+        }
+        .signature-table td {
+            padding: 5px;
+            vertical-align: bottom;
+        }
+        .signature-line {
+            border-bottom: 1px solid black;
+            height: 20px; /* Give space for signature */
+        }
+        .seal-placeholder {
+            text-align: right;
+            font-weight: bold;
+        }
+        .placeholder-line {
+             border-bottom: 1px solid black;
+             display: inline-block;
+             min-width: 200px; /* Adjust width of the line */
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Поручение экспедитору № {{ count }}</h1>
+
+    <div class="header-right">
+        <strong>Маркировка</strong> <span class="placeholder-line">&nbsp;</span>
+    </div>
+
+    <!-- Грузоотправитель -->
+    <table class="section-table">
+        <tr>
+            <td class="label" style="width: 150px;"><strong>Грузоотправитель:</strong></td>
+            <td class="data" style="width: 50%;">{{ f-Gruzootpravitel }}</td>
+            <td class="label" style="width: 60px;"><strong>Телефон</strong></td>
+            <td class="data" style="width: auto;">{{ f-Gruzootpravitel-phone }}</td>
+        </tr>
+        <tr>
+            <td class="label"><strong>ИНН</strong></td>
+            <td class="data" colspan="3">{{ f-Gruzootpravitel-INN }}</td>
+        </tr>
+    </table>
+
+    <!-- Клиент (Плательщик) -->
+    <table class="section-table">
+        <tr>
+            <td class="label" style="width: 150px;"><strong>Клиент (Плательщик):</strong></td>
+            <td class="data" style="width: 50%;">{{ f-Client }}</td>
+            <td class="label" style="width: 60px;"><strong>Телефон</strong></td>
+            <!-- NOTE: Your data for f-Client-phone includes address info. -->
+            <!-- You might need to clean this data in PHP before inserting -->
+            <!-- Assuming {{ f-Client-phone }} will contain ONLY the phone -->
+            <td class="data" style="width: auto;">{{ f-Client-phone }}</td>
+        </tr>
+        <tr>
+            <td class="label"><strong>ИНН</strong></td>
+            <td class="data" colspan="3">{{ f-Client-INN }}</td>
+        </tr>
+         <tr>
+            <td class="label"><strong>Адрес:</strong></td>
+            <td class="data" colspan="3">{{ f-Address }}</td>
+        </tr>
+         <tr>
+            <td class="label"><strong>E-mail:</strong></td>
+            <td class="data" colspan="3">{{ f-mail }}</td>
+        </tr>
+    </table>
+
+    <!-- Грузополучатель -->
+    <table class="section-table">
+        <tr>
+            <td class="label" style="width: 150px;"><strong>Грузополучатель:</strong></td>
+            <td class="data" style="width: 50%;">{{ f-Gruzopoluchatel }}</td>
+            <td class="label" style="width: 60px;"><strong>Телефон</strong></td>
+            <td class="data" style="width: auto;">{{ f-Gruzopoluchatel-phone }}</td>
+        </tr>
+        <tr>
+            <td class="label"><strong>ИНН</strong></td>
+            <td class="data" colspan="3">{{ f-Gruzopoluchatel-INN }}</td>
+        </tr>
+    </table>
+
+    <!-- Прочие данные -->
+    <div class="field-block"><strong>Вид транспорта:</strong> {{ f-Vid-transporta }}</div>
+    <div class="field-block"><strong>Пункт назначения:</strong> {{ f-Punkt-naznacheniya }}</div>
+
+    <div class="field-block">
+        <span class="full-width-label">Адрес, телефон и ФИО представителя при доставке до двери:</span>
+        <span class="full-width-data">{{ f-Punkt-naznacheniya-Address }}</span>
+    </div>
+
+    <div class="field-block"><strong>Наименование или товарный код:</strong> {{ f-Tovar }}</div>
+    <div class="field-block"><strong>Кол-во мест, вес (брутто/ нетто):</strong> {{ f-Kol-vo-mest }}</div>
+    <div class="field-block"><strong>Объем, размер упаковки:</strong> {{ f-Razmer }}</div>
+    <div class="field-block"><strong>Вид упаковки:</strong> {{ f-Vid-upakovki }}</div>
+    <div class="field-block"><strong>Документы:</strong> {{ f-Documents }}</div>
+    <div class="field-block"><strong>Особенности груза:</strong> {{ f-Osobennosti }}</div>
+    <div class="field-block"><strong>Температурный режим перевозки:</strong> {{ f-Temp-rezim }}</div>
+    <div class="field-block"><strong>Обрешетка:</strong> {{ f-Obreshetka }}</div>
+    <div class="field-block"><strong>Возврат оригиналов документов, если да, перечислить какие:</strong> {{ f-Vozvrat-documentov }}</div>
+    <div class="field-block"><strong>Забор груза в пункте отправления (адрес, телефон, время, примечания):</strong> {{ f-Zabor-gruza }}</div>
+    <div class="field-block"><strong>Страна происхождения груза:</strong> {{ f-Strana }}</div>
+    <div class="field-block"><strong>Страхование груза:</strong> {{ f-Strahovanie }}</div>
+    <div class="field-block"><strong>Объявленная стоимость груза:</strong> {{ f-Stoimost }}</div>
+
+    <div class="field-block">
+        <span class="full-width-label">Особые отметки:</span>
+        <span class="full-width-data">{{ f-Osobie-otmetki }}</span>
+    </div>
+
+
+    <!-- Подписи -->
+    <table class="signature-table">
+        <tr>
+            <td style="width: 20%;"><strong>Подпись представителя:</strong></td>
+            <td style="width: 40%;" class="signature-line"></td>
+            <td style="width: 10%; text-align: right;"><strong>Дата</strong></td>
+            <td style="width: 30%;" class="signature-line"></td>
+        </tr>
+        <tr><td colspan="4" style="height: 15px;"></td></tr> <!-- Spacer -->
+        <tr>
+            <td><strong>Экспедитор:</strong></td>
+            <td class="signature-line"></td>
+            <td colspan="2" class="seal-placeholder">М.П.</td>
+        </tr>
+    </table>
+
+</body>
+</html>

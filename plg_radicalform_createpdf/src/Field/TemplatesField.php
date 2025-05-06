@@ -1,7 +1,7 @@
 <?php
 /*
  * @package    RadicalForm PDF Create Plugin
- * @version     __DEPLOY_VERSION__
+ * @version     0.0.3
  * @author      CaveDesign Studio - cavedesign.ru
  * @copyright   Copyright (c) 2009 - 2025 CaveDesign Studio. All Rights Reserved.
  * @license     GNU/GPL license: https://www.gnu.org/copyleft/gpl.html
@@ -23,7 +23,7 @@ class TemplatesField extends ListField
 	 *
 	 * @var  string Tne field type name.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 0.0.3
 	 */
 	protected $type = 'templates';
 
@@ -32,7 +32,7 @@ class TemplatesField extends ListField
 	 *
 	 * @var  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  0.0.3
 	 */
 	protected $_options = null;
 
@@ -41,7 +41,7 @@ class TemplatesField extends ListField
 	 *
 	 * @return  array The field option objects.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 0.0.3
 	 */
 	protected function getOptions(): array
 	{

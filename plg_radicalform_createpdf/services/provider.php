@@ -2,7 +2,7 @@
 
 /*
  * @package   RadicalForm
- * @version   __DEPLOY_VERSION__
+ * @version   0.0.3
  * @author    Vladimir Eliseev aka Progreccor - https://progreccor.ru
  * @copyright Copyright (c) 2025 Progreccor. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -25,7 +25,7 @@ return new class implements ServiceProviderInterface {
 	 *
 	 * @param   Container  $container  The DI container.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   0.0.3
 	 */
 	public function register(Container $container)
 	{

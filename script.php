@@ -1,7 +1,7 @@
 <?php
 /*
  * @package     RadicalForm PDF Create Package
- * @version     __DEPLOY_VERSION__
+ * @version     0.0.3
  * @author      CaveDesign Studio - cavedesign.ru
  * @copyright   Copyright (c) 2009 - 2025 CaveDesign Studio. All Rights Reserved.
  * @license     GNU/GPL license: https://www.gnu.org/copyleft/gpl.html
@@ -36,7 +36,7 @@ return new class () implements ServiceProviderInterface {
 				 *
 				 * @var  AdministratorApplication
 				 *
-				 * @since  __DEPLOY_VERSION__
+				 * @since  0.0.3
 				 */
 				protected AdministratorApplication $app;
 
@@ -45,7 +45,7 @@ return new class () implements ServiceProviderInterface {
 				 *
 				 * @var   DatabaseDriver
 				 *
-				 * @since  __DEPLOY_VERSION__
+				 * @since  0.0.3
 				 */
 				protected DatabaseDriver $db;
 
@@ -54,7 +54,7 @@ return new class () implements ServiceProviderInterface {
 				 *
 				 * @var  string
 				 *
-				 * @since  __DEPLOY_VERSION__
+				 * @since  0.0.3
 				 */
 				protected string $minimumJoomla = '5.0';
 
@@ -63,7 +63,7 @@ return new class () implements ServiceProviderInterface {
 				 *
 				 * @var  string
 				 *
-				 * @since  __DEPLOY_VERSION__
+				 * @since  0.0.3
 				 */
 				protected string $minimumPhp = '8.0';
 
@@ -72,7 +72,7 @@ return new class () implements ServiceProviderInterface {
 				 *
 				 * @var  string
 				 *
-				 * @since  __DEPLOY_VERSION__
+				 * @since  0.0.3
 				 */
 				protected string $minimumMySQL = '8.0';
 
@@ -81,7 +81,7 @@ return new class () implements ServiceProviderInterface {
 				 *
 				 * @var  string
 				 *
-				 * @since  __DEPLOY_VERSION__
+				 * @since  0.0.3
 				 */
 				protected string $minimumMariaDb = '10.0';
 
@@ -90,7 +90,7 @@ return new class () implements ServiceProviderInterface {
 				 *
 				 * @var string
 				 *
-				 * @since __DEPLOY_VERSION__
+				 * @since 0.0.3
 				 */
 				protected string $constant = "PKG_RADICALFORM_CREATEPDF";
 
@@ -99,7 +99,7 @@ return new class () implements ServiceProviderInterface {
 				 *
 				 * @var  array
 				 *
-				 * @since  __DEPLOY_VERSION__
+				 * @since  0.0.3
 				 */
 				protected array $updateMethods = [];
 
@@ -108,7 +108,7 @@ return new class () implements ServiceProviderInterface {
 				 *
 				 * @param   AdministratorApplication  $app  The application object.
 				 *
-				 * @since __DEPLOY_VERSION__
+				 * @since 0.0.3
 				 */
 				public function __construct(AdministratorApplication $app)
 				{
@@ -123,7 +123,7 @@ return new class () implements ServiceProviderInterface {
 				 *
 				 * @return  boolean  True on success
 				 *
-				 * @since   __DEPLOY_VERSION__
+				 * @since   0.0.3
 				 */
 				public function install(InstallerAdapter $adapter): bool
 				{
@@ -137,7 +137,7 @@ return new class () implements ServiceProviderInterface {
 				 *
 				 * @return  boolean  True on success
 				 *
-				 * @since   __DEPLOY_VERSION__
+				 * @since   0.0.3
 				 */
 				public function update(InstallerAdapter $adapter): bool
 				{
@@ -151,7 +151,7 @@ return new class () implements ServiceProviderInterface {
 				 *
 				 * @return  boolean  True on success
 				 *
-				 * @since   __DEPLOY_VERSION__
+				 * @since   0.0.3
 				 */
 				public function uninstall(InstallerAdapter $adapter): bool
 				{
@@ -166,7 +166,7 @@ return new class () implements ServiceProviderInterface {
 				 *
 				 * @return  boolean  True on success
 				 *
-				 * @since   __DEPLOY_VERSION__
+				 * @since   0.0.3
 				 */
 				public function preflight(string $type, InstallerAdapter $adapter): bool
 				{
@@ -187,7 +187,7 @@ return new class () implements ServiceProviderInterface {
 				 *
 				 * @return  boolean  True on success
 				 *
-				 * @since   __DEPLOY_VERSION__
+				 * @since   0.0.3
 				 */
 				public function postflight(string $type, InstallerAdapter $adapter): bool
 				{
@@ -217,7 +217,7 @@ return new class () implements ServiceProviderInterface {
 				 *
 				 * @return  bool True on success, False on failure.
 				 *
-				 * @since  __DEPLOY_VERSION__
+				 * @since  0.0.3
 				 */
 				protected function checkCompatible(): bool
 				{
