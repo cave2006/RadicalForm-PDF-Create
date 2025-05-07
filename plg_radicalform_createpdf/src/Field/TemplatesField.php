@@ -1,7 +1,7 @@
 <?php
 /*
  * @package    RadicalForm PDF Create Plugin
- * @version     0.0.3
+ * @version     __DEPLOY_VERSION__
  * @author      CaveDesign Studio - cavedesign.ru
  * @copyright   Copyright (c) 2009 - 2025 CaveDesign Studio. All Rights Reserved.
  * @license     GNU/GPL license: https://www.gnu.org/copyleft/gpl.html

@@ -7,7 +7,7 @@
 	<license>GNU/GPL license: https://www.gnu.org/copyleft/gpl.html</license>
 	<authorEmail>cave2006@ya.ru</authorEmail>
 	<authorUrl>https://cavedesign.ru</authorUrl>
-	<version>0.0.3</version>
+	<version>0.0.5-dev</version>
 	<description>PLG_RADICALFORM_CREATEPDF_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\RadicalForm\CreatePDF</namespace>
 	<scriptfile>script.php</scriptfile>

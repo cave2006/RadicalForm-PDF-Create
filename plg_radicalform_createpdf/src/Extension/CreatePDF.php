@@ -1,7 +1,7 @@
 <?php
 /*
  * @package    RadicalForm PDF Create Plugin
- * @version     0.0.3
+ * @version     __DEPLOY_VERSION__
  * @author      CaveDesign Studio - cavedesign.ru
  * @copyright   Copyright (c) 2009 - 2025 CaveDesign Studio. All Rights Reserved.
  * @license     GNU/GPL license: https://www.gnu.org/copyleft/gpl.html
@@ -81,163 +81,141 @@ class CreatePDF extends CMSPlugin implements SubscriberInterface
 		{
 			$targetsData = $targetsData->toArray();
 		}
-		if (!empty($targetsData))
+
+		if (empty($targetsData))
 		{
-			foreach ($targetsData as $key => $target)
+			return;
+		}
+
+		$args = $event->getArguments();
+		$clearData = $args[0];
+		$input     =& $args[1];
+		$params    = $args[2];
+
+		$inputTarget = $input['rfTarget'] ?? '';
+		$activeTarget = null;
+		$activeKey = null;
+
+		// Поиск подходящего target
+		foreach ($targetsData as $key => $target)
+		{
+			$title = $target->target_title ?? '';
+
+			if ($title === $inputTarget)
 			{
-				$title        = $target->target_title ?? '';
-				$template     = $target->target_template ?? '';
-				$countEnabled = (int) ($target->count_enable ?? 0);
-				if ($countEnabled === 1)
+				$activeTarget = $target;
+				$activeKey = $key;
+				break;
+			}
+		}
+
+		if (!$activeTarget)
+		{
+			return;
+		}
+
+		$template = $activeTarget->target_template ?? '';
+		$countEnabled = (int)($activeTarget->count_enable ?? 0);
+		$countTemp = '';
+
+		if ($countEnabled === 1)
+		{
+			$countStartNumber = $activeTarget->count_start ?? '0001';
+			$countTitle       = $activeTarget->count_title ?? 'П-{count}';
+			$countLastNumber  = $activeTarget->count_last ?? '';
+
+			$numberLength = strlen($countStartNumber);
+			$lastNumber = !empty($countLastNumber) ? $countLastNumber : $countStartNumber;
+			$nextNumber = str_pad((int)$lastNumber + 1, $numberLength, '0', STR_PAD_LEFT);
+
+			$countTemp = str_replace(
+				['{count}', '{{date}:{DD.MM.YYYY}}'],
+				[$nextNumber, date('d.m.Y')],
+				$countTitle
+			);
+
+			$clearData['count'] = $countTemp;
+			$this->params->set("targets.$activeKey.count_last", $nextNumber);
+			$this->savePluginParams();
+		}
+
+		$this->loadLibraries();
+
+		$baseDir  = $params['uploaddir'];
+		$uniq     = (string) $input['uniq'];
+		$path     = $baseDir . "/fileupload";
+		$filename = $uniq . '.pdf';
+
+		Folder::create($path);
+		$fullFilePath = $path . '/' . $filename;
+
+		$phoneMask = '+7-%s-%s-%s';
+
+		foreach ($clearData as $ph => $value)
+		{
+			if (stripos($ph, 'phone') !== false && is_string($value))
+			{
+				$digits = preg_replace('/\D+/', '', $value);
+
+				if (strlen($digits) === 11 && $digits[0] === '8')
 				{
-					$countStartNumber = $target->count_start ?? '0001';
-					$countTitle       = $target->count_title ?? 'П-{count}';
-					$countLastNumber  = $target->count_last ?? '';
+					$digits = '7' . substr($digits, 1);
+				}
+				elseif (strlen($digits) === 10)
+				{
+					$digits = '7' . $digits;
+				}
 
-					$numberLength = strlen($countStartNumber);
-
-					$lastNumber = !empty($countLastNumber) ? $countLastNumber : $countStartNumber;
-
-					$nextNumber = str_pad((int)$lastNumber + 1, $numberLength, '0', STR_PAD_LEFT);
-
-					$countTemp = str_replace(
-						['{count}', '{{date}:{DD.MM.YYYY}}'],
-						[$nextNumber, date('d.m.Y')],
-						$countTitle
+				if (strlen($digits) === 11)
+				{
+					$clearData[$ph] = sprintf(
+						$phoneMask,
+						substr($digits, 1, 3),
+						substr($digits, 4, 3),
+						substr($digits, 7, 4)
 					);
-
-					$clearData['count'] = $countTemp;
-
-					$this->params->set("targets.$key.count_last", $nextNumber);
-
-					$this->savePluginParams();
-
-				}
-
-				$args = $event->getArguments();
-
-				$clearData = $args[0];
-				$input     =& $args[1];
-				$params    = $args[2];
-
-				if (($input['rfTarget'] ?? '') !== $title)
-				{
-					return;
-				}
-
-				$this->loadLibraries();
-
-				$baseDir  = $params['uploaddir'];
-				$uniq     = (string) $input['uniq'];
-				$path     = $baseDir . "/fileupload";
-				$filename = $uniq . '.pdf';
-
-				Folder::create($path);
-
-				$fullFilePath = $path . '/' . $filename;
-
-
-				/**
-				 * Method recursively turns any value (including a nested array) into a string.
-				 *
-				 * @param   mixed  $value
-				 *
-				 * @return string
-				 *
-				 * @since 0.0.3
-				 */
-				function valueToString(mixed $value): string
-				{
-					if (is_array($value))
-					{
-						return htmlspecialchars(implode(', ', array_map(__FUNCTION__, $value)), ENT_QUOTES, 'UTF-8');
-					}
-					// Ensure boolean 'true'/'false' are represented nicely if needed, e.g., 'Да'/'Нет'
-					if (is_bool($value))
-					{
-						return $value ? 'Да' : 'Нет';
-					}
-
-					return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
-				}
-
-				$phoneMask = '+7-%s-%s-%s';
-
-				foreach ($clearData as $ph => $value)
-				{
-					if (stripos($ph, 'phone') !== false && is_string($value))
-					{
-						$digits = preg_replace('/\D+/', '', $value);
-
-						if (strlen($digits) === 11 && $digits[0] === '8')
-						{
-							$digits = '7' . substr($digits, 1);
-						}
-						elseif (strlen($digits) === 10)
-						{
-							$digits = '7' . $digits;
-						}
-
-						if (strlen($digits) === 11)
-						{
-							$clearData[$ph] = sprintf(
-								$phoneMask,
-								substr($digits, 1, 3),
-								substr($digits, 4, 3),
-								substr($digits, 7, 4)
-							);
-						}
-						else
-						{
-							$clearData[$ph] = '';
-						}
-					}
-				}
-
-				$filePath = JPATH_PLUGINS . '/radicalform/createpdf/templates/' . $template;
-				if (file_exists($filePath))
-				{
-					$templateHtml = file_get_contents($filePath);
 				}
 				else
 				{
-					throw new \Exception('Template file not found: ' . $filePath);
+					$clearData[$ph] = '';
 				}
-
-				$replacements = ['{{ count }}' => $countTemp,];
-
-				foreach ($clearData as $k => $value)
-				{
-					$placeholder                = '{{ ' . $k . ' }}';
-					$stringValue                = valueToString($value);
-					$replacements[$placeholder] = $stringValue;
-				}
-
-				$finalHtml = str_replace(array_keys($replacements), array_values($replacements), $templateHtml);
-
-
-				$finalHtml = preg_replace('/\{\{.*?\}\}/', '', $finalHtml);
-
-
-				try
-				{
-					$mpdf = new \Joomla\Libraries\JMpdf\JMpdf($finalHtml);
-					$mpdf->save($fullFilePath);
-
-				}
-				catch (\JMpdf\JMpdfException $e)
-				{
-					die ('mPDF error: ' . $e->getMessage());
-				}
-				catch (\Exception $e)
-				{
-					die ('Error: ' . $e->getMessage());
-				}
-
-				$input['needToSendFiles'] = true;
-
 			}
 		}
+
+		$filePath = JPATH_PLUGINS . '/radicalform/createpdf/templates/' . $template;
+
+		if (!file_exists($filePath))
+		{
+			throw new \Exception('Template file not found: ' . $filePath);
+		}
+
+		$templateHtml = file_get_contents($filePath);
+		$replacements = ['{{ count }}' => $countTemp];
+
+		foreach ($clearData as $k => $value)
+		{
+			$placeholder = '{{ ' . $k . ' }}';
+			$replacements[$placeholder] = $this->valueToString($value);
+		}
+
+		$finalHtml = str_replace(array_keys($replacements), array_values($replacements), $templateHtml);
+		$finalHtml = preg_replace('/\{\{.*?\}\}/', '', $finalHtml);
+
+		try
+		{
+			$mpdf = new \Joomla\Libraries\JMpdf\JMpdf($finalHtml);
+			$mpdf->save($fullFilePath);
+		}
+		catch (\JMpdf\JMpdfException $e)
+		{
+			die ('mPDF error: ' . $e->getMessage());
+		}
+		catch (\Exception $e)
+		{
+			die ('Error: ' . $e->getMessage());
+		}
+
+		$input['needToSendFiles'] = true;
 	}
 
 	/**
@@ -282,5 +260,31 @@ class CreatePDF extends CMSPlugin implements SubscriberInterface
 			return false;
 		}
 	}
+
+	/**
+	 * Recursively converts a value (including nested arrays) to a string.
+	 *
+	 * @param   mixed  $value
+	 *
+	 * @return  string
+	 *
+	 * @since   0.0.3
+	 */
+	private function valueToString(mixed $value): string
+	{
+		if (is_array($value))
+		{
+			return htmlspecialchars(implode(', ', array_map([$this, 'valueToString'], $value)),
+				ENT_QUOTES, 'UTF-8');
+		}
+
+		if (is_bool($value))
+		{
+			return $value ? 'Да' : 'Нет';
+		}
+
+		return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
+	}
+
 
 }

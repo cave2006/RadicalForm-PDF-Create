@@ -2,7 +2,7 @@
 
 /*
  * @package   RadicalForm
- * @version   0.0.3
+ * @version   __DEPLOY_VERSION__
  * @author    Vladimir Eliseev aka Progreccor - https://progreccor.ru
  * @copyright Copyright (c) 2025 Progreccor. All rights reserved.
  * @license   GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
